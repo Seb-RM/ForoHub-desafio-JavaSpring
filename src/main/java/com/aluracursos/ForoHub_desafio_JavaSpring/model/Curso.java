@@ -3,7 +3,8 @@ package com.aluracursos.ForoHub_desafio_JavaSpring.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
+@Table(name = "curso")
+@Entity(name = "Curso")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,7 +13,7 @@ public class Curso {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(nullable = false)
     private String nombre;
