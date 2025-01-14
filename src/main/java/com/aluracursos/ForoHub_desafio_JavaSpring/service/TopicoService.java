@@ -2,9 +2,15 @@ package com.aluracursos.ForoHub_desafio_JavaSpring.service;
 
 import com.aluracursos.ForoHub_desafio_JavaSpring.dto.TopicoRequestDTO;
 import com.aluracursos.ForoHub_desafio_JavaSpring.dto.TopicoResponseDTO;
+import com.aluracursos.ForoHub_desafio_JavaSpring.exception.ResourceNotFoundException;
 import com.aluracursos.ForoHub_desafio_JavaSpring.model.Curso;
 import com.aluracursos.ForoHub_desafio_JavaSpring.model.Topico;
 import com.aluracursos.ForoHub_desafio_JavaSpring.model.Usuario;
+import com.aluracursos.ForoHub_desafio_JavaSpring.model.StatusTopico;
+
+import com.aluracursos.ForoHub_desafio_JavaSpring.repository.CursoRepository;
+import com.aluracursos.ForoHub_desafio_JavaSpring.repository.TopicoRepository;
+import com.aluracursos.ForoHub_desafio_JavaSpring.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 @Service
