@@ -19,13 +19,13 @@ public class Topico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, length = 255)
     private String titulo;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String mensaje;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime fechaCreacion;
 
     @Enumerated(EnumType.STRING)
@@ -42,5 +42,10 @@ public class Topico {
 
     @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL)
     private List<Respuesta> respuestas = new ArrayList<>();
+
+    @PrePersist
+    public void prePersist() {
+        this.fechaCreacion = LocalDateTime.now();
+    }
 }
 
