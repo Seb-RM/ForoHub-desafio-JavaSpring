@@ -33,14 +33,13 @@ public class TopicoService {
         Curso curso = cursoRepository.findById(requestDTO.getCursoId())
                 .orElseThrow(() -> new ResourceNotFoundException("Curso no encontrado."));
 
-        Topico topico = Topico.builder()
-                .titulo(requestDTO.getTitulo())
-                .mensaje(requestDTO.getMensaje())
-                .autor(autor)
-                .curso(curso)
-                .status(StatusTopico.ACTIVO)
-                .fechaCreacion(LocalDateTime.now()) // Inicializa el campo no nulo
-                .build();
+        Topico topico = new Topico(
+                requestDTO.getTitulo(),
+                requestDTO.getMensaje(),
+                StatusTopico.ACTIVO,
+                autor,
+                curso
+        );
 
         Topico topicoGuardado = topicoRepository.save(topico);
 

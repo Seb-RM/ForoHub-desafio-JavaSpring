@@ -1,17 +1,9 @@
 package com.aluracursos.ForoHub_desafio_JavaSpring.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Table(name = "perfil")
 @Entity(name = "Perfil")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Perfil {
 
     @Id
@@ -20,5 +12,41 @@ public class Perfil {
 
     @Column(nullable = false, unique = true)
     private String nombre;
+
+    // Constructor sin argumentos
+    public Perfil() {
+    }
+
+    // Constructor con argumentos
+    public Perfil(int id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
+
+    // Getters y setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    @Override
+    public String toString() {
+        return "Perfil{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                '}';
+    }
 }
+
 
