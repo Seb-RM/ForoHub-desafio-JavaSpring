@@ -2,14 +2,14 @@ package com.aluracursos.ForoHub_desafio_JavaSpring.dto;
 
 public class TopicoResponseDTO {
 
-    private Long id;
+    private int id;
     private String titulo;
     private String mensaje;
     private String autor;
     private String curso;
 
     // Constructor
-    public TopicoResponseDTO(Long id, String titulo, String mensaje, String autor, String curso) {
+    public TopicoResponseDTO(int id, String titulo, String mensaje, String autor, String curso) {
         this.id = id;
         this.titulo = titulo;
         this.mensaje = mensaje;
@@ -18,11 +18,11 @@ public class TopicoResponseDTO {
     }
 
     // Getters y setters
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

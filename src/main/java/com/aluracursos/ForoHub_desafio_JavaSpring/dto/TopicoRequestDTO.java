@@ -11,10 +11,10 @@ public class TopicoRequestDTO {
     private String mensaje;
 
     @NotBlank(message = "El autor es obligatorio.")
-    private String autor;
+    private Integer autorId;
 
     @NotBlank(message = "El curso es obligatorio.")
-    private String curso;
+    private Integer cursoId;
 
     public String getTitulo() {
         return titulo;
@@ -32,19 +32,19 @@ public class TopicoRequestDTO {
         this.mensaje = mensaje;
     }
 
-    public String getAutor() {
-        return autor;
+    public Integer getAutorId() {
+        return autorId;
     }
 
-    public void setAutor(String autor) {
-        this.autor = autor;
+    public void setAutorId(Integer autorId) {
+        this.autorId = autorId;
     }
 
-    public String getCurso() {
-        return curso;
+    public Integer getCursoId() {
+        return cursoId;
     }
 
-    public void setCurso(String curso) {
-        this.curso = curso;
+    public void setCursoId(Integer cursoId) {
+        this.cursoId = cursoId;
     }
 }
