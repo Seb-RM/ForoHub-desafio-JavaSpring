@@ -1,20 +1,26 @@
 package com.aluracursos.ForoHub_desafio_JavaSpring.dto;
 
+import java.time.LocalDateTime;
+
 public class TopicoResponseDTO {
 
     private int id;
     private String titulo;
     private String mensaje;
-    private String autor;
-    private String curso;
+    private Integer autorId;  // Modificado para reflejar el ID del autor
+    private Integer cursoId;
+    private String status;  // Nuevo campo para el estado
+    private LocalDateTime fechaCreacion;// Modificado para reflejar el ID del curso
 
     // Constructor
-    public TopicoResponseDTO(int id, String titulo, String mensaje, String autor, String curso) {
+    public TopicoResponseDTO(int id, String titulo, String mensaje, Integer autorId, Integer cursoId, String status, LocalDateTime fechaCreacion) {
         this.id = id;
         this.titulo = titulo;
         this.mensaje = mensaje;
-        this.autor = autor;
-        this.curso = curso;
+        this.autorId = autorId;
+        this.cursoId = cursoId;
+        this.status = status;
+        this.fechaCreacion = fechaCreacion;
     }
 
     // Getters y setters
@@ -42,19 +48,35 @@ public class TopicoResponseDTO {
         this.mensaje = mensaje;
     }
 
-    public String getAutor() {
-        return autor;
+    public Integer getAutorId() {
+        return autorId;
     }
 
-    public void setAutor(String autor) {
-        this.autor = autor;
+    public void setAutorId(Integer autorId) {
+        this.autorId = autorId;
     }
 
-    public String getCurso() {
-        return curso;
+    public Integer getCursoId() {
+        return cursoId;
     }
 
-    public void setCurso(String curso) {
-        this.curso = curso;
+    public void setCursoId(Integer cursoId) {
+        this.cursoId = cursoId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 }

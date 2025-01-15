@@ -1,6 +1,7 @@
 package com.aluracursos.ForoHub_desafio_JavaSpring.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,15 +28,16 @@ public class Topico {
     @Column(nullable = false)
     private StatusTopico status;
 
-    @ManyToOne
-    @JoinColumn(name = "autor_id", nullable = false)
-    private Usuario autor;
+    // Cambiar los campos de tipo entidad a campos de tipo Integer (ID)
+    @NotNull(message = "El autor no puede ser nulo")
+    @Column(name = "autor_id", nullable = false)
+    private Integer autorId;
 
-    @ManyToOne
-    @JoinColumn(name = "curso_id", nullable = false)
-    private Curso curso;
+    @NotNull(message = "El curso no puede ser nulo")
+    @Column(name = "curso_id", nullable = false)
+    private Integer cursoId;
 
-    @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "topicoId", cascade = CascadeType.ALL)
     private List<Respuesta> respuestas = new ArrayList<>();
 
     // Constructor sin argumentos
@@ -43,12 +45,12 @@ public class Topico {
     }
 
     // Constructor con parámetros
-    public Topico(String titulo, String mensaje, StatusTopico status, Usuario autor, Curso curso) {
+    public Topico(String titulo, String mensaje, StatusTopico status, Integer autorId, Integer cursoId) {
         this.titulo = titulo;
         this.mensaje = mensaje;
-        this.status = status;
-        this.autor = autor;
-        this.curso = curso;
+        this.status = status != null ? status : StatusTopico.ACTIVO;
+        this.autorId = autorId;
+        this.cursoId = cursoId;
         this.fechaCreacion = LocalDateTime.now();
     }
 
@@ -93,20 +95,20 @@ public class Topico {
         this.status = status;
     }
 
-    public Usuario getAutor() {
-        return autor;
+    public Integer getAutorId() {
+        return autorId;
     }
 
-    public void setAutor(Usuario autor) {
-        this.autor = autor;
+    public void setAutorId(Integer autorId) {
+        this.autorId = autorId;
     }
 
-    public Curso getCurso() {
-        return curso;
+    public Integer getCursoId() {
+        return cursoId;
     }
 
-    public void setCurso(Curso curso) {
-        this.curso = curso;
+    public void setCursoId(Integer cursoId) {
+        this.cursoId = cursoId;
     }
 
     public List<Respuesta> getRespuestas() {
@@ -131,8 +133,8 @@ public class Topico {
                 ", mensaje='" + mensaje + '\'' +
                 ", fechaCreacion=" + fechaCreacion +
                 ", status=" + status +
-                ", autor=" + autor +
-                ", curso=" + curso +
+                ", autorId=" + autorId +
+                ", cursoId=" + cursoId +
                 ", respuestas=" + respuestas +
                 '}';
     }

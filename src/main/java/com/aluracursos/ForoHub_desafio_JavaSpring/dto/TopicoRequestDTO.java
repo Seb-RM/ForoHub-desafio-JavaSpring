@@ -1,21 +1,24 @@
 package com.aluracursos.ForoHub_desafio_JavaSpring.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import com.aluracursos.ForoHub_desafio_JavaSpring.model.StatusTopico;
+
+import jakarta.validation.constraints.NotNull;
 
 public class TopicoRequestDTO {
 
-    @NotBlank(message = "El título es obligatorio.")
+    @NotNull(message = "El título no puede ser nulo")
     private String titulo;
 
-    @NotBlank(message = "El mensaje es obligatorio.")
+    @NotNull(message = "El mensaje no puede ser nulo")
     private String mensaje;
 
-    @NotBlank(message = "El autor es obligatorio.")
+    @NotNull(message = "El autor no puede ser nulo")
     private Integer autorId;
 
-    @NotBlank(message = "El curso es obligatorio.")
+    @NotNull(message = "El curso no puede ser nulo")
     private Integer cursoId;
 
+    // Getters y setters
     public String getTitulo() {
         return titulo;
     }
@@ -47,4 +50,6 @@ public class TopicoRequestDTO {
     public void setCursoId(Integer cursoId) {
         this.cursoId = cursoId;
     }
+
 }
+

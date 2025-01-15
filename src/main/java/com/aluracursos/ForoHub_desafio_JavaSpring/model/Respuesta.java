@@ -15,16 +15,14 @@ public class Respuesta {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String mensaje;
 
-    @ManyToOne
-    @JoinColumn(name = "topico_id", nullable = false)
-    private Topico topico;
+    @Column(name = "topico_id", nullable = false)
+    private Integer topicoId;  // Cambiado a Integer para referenciar el ID de Topico
 
     @Column(nullable = false)
     private LocalDateTime fechaCreacion;
 
-    @ManyToOne
-    @JoinColumn(name = "autor_id", nullable = false)
-    private Usuario autor;
+    @Column(name = "autor_id", nullable = false)
+    private Integer autorId;  // Cambiado a Integer para referenciar el ID de Usuario
 
     @Column(nullable = false)
     private Boolean solucion;
@@ -34,12 +32,12 @@ public class Respuesta {
     }
 
     // Constructor con argumentos
-    public Respuesta(int id, String mensaje, Topico topico, LocalDateTime fechaCreacion, Usuario autor, Boolean solucion) {
+    public Respuesta(int id, String mensaje, Integer topicoId, LocalDateTime fechaCreacion, Integer autorId, Boolean solucion) {
         this.id = id;
         this.mensaje = mensaje;
-        this.topico = topico;
+        this.topicoId = topicoId;
         this.fechaCreacion = fechaCreacion;
-        this.autor = autor;
+        this.autorId = autorId;
         this.solucion = solucion;
     }
 
@@ -60,12 +58,12 @@ public class Respuesta {
         this.mensaje = mensaje;
     }
 
-    public Topico getTopico() {
-        return topico;
+    public Integer getTopicoId() {
+        return topicoId;
     }
 
-    public void setTopico(Topico topico) {
-        this.topico = topico;
+    public void setTopicoId(Integer topicoId) {
+        this.topicoId = topicoId;
     }
 
     public LocalDateTime getFechaCreacion() {
@@ -76,12 +74,12 @@ public class Respuesta {
         this.fechaCreacion = fechaCreacion;
     }
 
-    public Usuario getAutor() {
-        return autor;
+    public Integer getAutorId() {
+        return autorId;
     }
 
-    public void setAutor(Usuario autor) {
-        this.autor = autor;
+    public void setAutorId(Integer autorId) {
+        this.autorId = autorId;
     }
 
     public Boolean getSolucion() {
@@ -97,12 +95,13 @@ public class Respuesta {
         return "Respuesta{" +
                 "id=" + id +
                 ", mensaje='" + mensaje + '\'' +
-                ", topico=" + (topico != null ? topico.getId() : null) +
+                ", topicoId=" + topicoId +
                 ", fechaCreacion=" + fechaCreacion +
-                ", autor=" + (autor != null ? autor.getId() : null) +
+                ", autorId=" + autorId +
                 ", solucion=" + solucion +
                 '}';
     }
 }
+
 
 

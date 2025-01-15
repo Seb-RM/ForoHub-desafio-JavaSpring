@@ -28,41 +28,54 @@ public class TopicoService {
     }
 
     public TopicoResponseDTO registrarTopico(TopicoRequestDTO requestDTO) {
-        Usuario autor = usuarioRepository.findById(requestDTO.getAutorId())
-                .orElseThrow(() -> new ResourceNotFoundException("Autor no encontrado."));
-        Curso curso = cursoRepository.findById(requestDTO.getCursoId())
-                .orElseThrow(() -> new ResourceNotFoundException("Curso no encontrado."));
+        // Verificar si el autor existe mediante su ID
+        usuarioRepository.findById(requestDTO.getAutorId())
+                .orElseThrow(() -> new ResourceNotFoundException("Autor no encontrado con ID: " + requestDTO.getAutorId()));
 
+        // Verificar si el curso existe mediante su ID
+        cursoRepository.findById(requestDTO.getCursoId())
+                .orElseThrow(() -> new ResourceNotFoundException("Curso no encontrado con ID: " + requestDTO.getCursoId()));
+
+        // Crear el nuevo Topico con los ID de autor y curso
         Topico topico = new Topico(
                 requestDTO.getTitulo(),
                 requestDTO.getMensaje(),
                 StatusTopico.ACTIVO,
-                autor,
-                curso
+                requestDTO.getAutorId(), // Usar el ID del autor
+                requestDTO.getCursoId()   // Usar el ID del curso
         );
 
+        // Guardar el Topico en la base de datos
         Topico topicoGuardado = topicoRepository.save(topico);
 
+        // Crear y retornar el DTO de respuesta con la información del nuevo Topico
         return new TopicoResponseDTO(
                 topicoGuardado.getId(),
                 topicoGuardado.getTitulo(),
                 topicoGuardado.getMensaje(),
-                autor.getNombre(),
-                curso.getNombre()
+                topicoGuardado.getAutorId(),  // Retornar el ID del autor
+                topicoGuardado.getCursoId(),  // Retornar el ID del curso
+                topicoGuardado.getStatus().name(),  // Obtener el estado como String
+                topicoGuardado.getFechaCreacion()
         );
     }
 
     public TopicoResponseDTO obtenerTopicoPorId(int id) {
+        // Obtener el Topico desde el repositorio
         Topico topico = topicoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Tópico no encontrado con ID: " + id));
 
+        // Crear y retornar el DTO de respuesta con la información del Topico
         return new TopicoResponseDTO(
                 topico.getId(),
                 topico.getTitulo(),
                 topico.getMensaje(),
-                topico.getAutor().getNombre(),
-                topico.getCurso().getNombre()
+                topico.getAutorId(),  // Retornar el ID del autor
+                topico.getCursoId(),   // Retornar el ID del curso
+                topico.getStatus().name(),  // Obtener el estado como String
+                topico.getFechaCreacion()
         );
     }
 }
+
 
