@@ -2,17 +2,14 @@ package com.aluracursos.ForoHub_desafio_JavaSpring.service;
 
 import com.aluracursos.ForoHub_desafio_JavaSpring.dto.TopicoRequestDTO;
 import com.aluracursos.ForoHub_desafio_JavaSpring.dto.TopicoResponseDTO;
+import com.aluracursos.ForoHub_desafio_JavaSpring.exception.DuplicateTopicException;
 import com.aluracursos.ForoHub_desafio_JavaSpring.exception.ResourceNotFoundException;
-import com.aluracursos.ForoHub_desafio_JavaSpring.model.Curso;
 import com.aluracursos.ForoHub_desafio_JavaSpring.model.StatusTopico;
 import com.aluracursos.ForoHub_desafio_JavaSpring.model.Topico;
-import com.aluracursos.ForoHub_desafio_JavaSpring.model.Usuario;
 import com.aluracursos.ForoHub_desafio_JavaSpring.repository.CursoRepository;
 import com.aluracursos.ForoHub_desafio_JavaSpring.repository.TopicoRepository;
 import com.aluracursos.ForoHub_desafio_JavaSpring.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Service
 public class TopicoService {
@@ -35,6 +32,12 @@ public class TopicoService {
         // Verificar si el curso existe mediante su ID
         cursoRepository.findById(requestDTO.getCursoId())
                 .orElseThrow(() -> new ResourceNotFoundException("Curso no encontrado con ID: " + requestDTO.getCursoId()));
+
+        boolean existeTopico = topicoRepository.existsByTituloAndMensaje(requestDTO.getTitulo(), requestDTO.getMensaje());
+        if (existeTopico) {
+            throw new DuplicateTopicException(String.format("No se pudo crear el tópico porque ya existe un tópico con el título '%s' y el mensaje '%s'.",
+                    requestDTO.getTitulo(), requestDTO.getMensaje()));
+        }
 
         // Crear el nuevo Topico con los ID de autor y curso
         Topico topico = new Topico(
