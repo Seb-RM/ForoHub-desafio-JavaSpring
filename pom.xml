@@ -83,8 +83,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>5.8.0</version> <!-- Reemplaza con la versión que estés usando -->
+			<artifactId>spring-security-core</artifactId><!-- Reemplaza con la versión que estés usando -->
 		</dependency>
 	</dependencies>
 
