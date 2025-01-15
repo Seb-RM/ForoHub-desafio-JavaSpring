@@ -31,11 +31,11 @@ public class TopicoService {
     public TopicoResponseDTO registrarTopico(TopicoRequestDTO requestDTO) {
         // Verificar si el autor existe mediante su ID
         Usuario autor = usuarioRepository.findById(requestDTO.getAutorId())
-                .orElseThrow(() -> new ResourceNotFoundException("Autor no encontrado con ID: " + requestDTO.getAutorId()));
+                .orElseThrow(() -> new ResourceNotFoundException("El autor con ID " + requestDTO.getAutorId() + " no fue encontrado."));
 
         // Verificar si el curso existe mediante su ID
         Curso curso = cursoRepository.findById(requestDTO.getCursoId())
-                .orElseThrow(() -> new ResourceNotFoundException("Curso no encontrado con ID: " + requestDTO.getCursoId()));
+                .orElseThrow(() -> new ResourceNotFoundException("El curso con ID " + requestDTO.getCursoId() + " no fue encontrado."));
 
         boolean existeTopico = topicoRepository.existsByTituloAndMensaje(requestDTO.getTitulo(), requestDTO.getMensaje());
         if (existeTopico) {
