@@ -2,14 +2,17 @@ package com.aluracursos.ForoHub_desafio_JavaSpring.dto;
 
 import com.aluracursos.ForoHub_desafio_JavaSpring.model.StatusTopico;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class TopicoRequestDTO {
 
     @NotNull(message = "El título no puede ser nulo")
+    @NotBlank(message = "El título no puede estar vacío ni contener solo espacios")
     private String titulo;
 
     @NotNull(message = "El mensaje no puede ser nulo")
+    @NotBlank(message = "El mensaje no puede estar vacío ni contener solo espacios")
     private String mensaje;
 
     @NotNull(message = "El autor no puede ser nulo")
