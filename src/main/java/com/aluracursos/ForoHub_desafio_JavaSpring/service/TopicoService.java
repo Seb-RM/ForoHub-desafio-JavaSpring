@@ -13,6 +13,8 @@ import com.aluracursos.ForoHub_desafio_JavaSpring.model.Usuario;
 import com.aluracursos.ForoHub_desafio_JavaSpring.repository.CursoRepository;
 import com.aluracursos.ForoHub_desafio_JavaSpring.repository.TopicoRepository;
 import com.aluracursos.ForoHub_desafio_JavaSpring.repository.UsuarioRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -68,6 +70,37 @@ public class TopicoService {
                 topicoGuardado.getStatus().name(),  // Obtener el estado como String
                 topicoGuardado.getFechaCreacion()
         );
+    }
+
+    public Page<TopicoResponseDTO> listarTopicos(Integer cursoId, Integer anio, Pageable pageable) {
+        Page<Topico> topicos;
+
+        if (cursoId != null && anio != null) {
+            topicos = topicoRepository.findByCursoIdAndFechaCreacionYear(cursoId, anio, pageable);
+        } else if (cursoId != null) {
+            topicos = topicoRepository.findByCursoId(cursoId, pageable);
+        } else if (anio != null) {
+            topicos = topicoRepository.findByFechaCreacionYear(anio, pageable);
+        } else {
+            topicos = topicoRepository.findAll(pageable);
+        }
+
+        return topicos.map(topico -> {
+            Usuario autor = usuarioRepository.findById(topico.getAutorId())
+                    .orElseThrow(() -> new ResourceNotFoundException("El autor con ID " + topico.getAutorId() + " no fue encontrado."));
+            Curso curso = cursoRepository.findById(topico.getCursoId())
+                    .orElseThrow(() -> new ResourceNotFoundException("El curso con ID " + topico.getCursoId() + " no fue encontrado."));
+
+            return new TopicoResponseDTO(
+                    topico.getId(),
+                    topico.getTitulo(),
+                    topico.getMensaje(),
+                    new AutorDTO(autor.getId(), autor.getNombre()),
+                    new CursoDTO(curso.getId(), curso.getNombre()),
+                    topico.getStatus().name(),
+                    topico.getFechaCreacion()
+            );
+        });
     }
 
 }

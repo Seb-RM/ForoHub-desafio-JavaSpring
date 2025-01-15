@@ -119,7 +119,7 @@ public class Topico {
         this.respuestas = respuestas;
     }
 
-    // Método prePersist para inicializar fechaCreacion
+    // Metodo prePersist para inicializar fechaCreacion
     @PrePersist
     public void prePersist() {
         this.fechaCreacion = LocalDateTime.now();
