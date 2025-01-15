@@ -124,5 +124,18 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
     }
+
+    // Manejar excepciones específicas de CursoNoEncontradoException
+    @ExceptionHandler(CursoNoEncontradoException.class)
+    public ResponseEntity<Map<String, Object>> handleCursoNoEncontradoException(CursoNoEncontradoException ex) {
+        Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put("timestamp", LocalDateTime.now());
+        errorDetails.put("status", HttpStatus.NOT_FOUND.value());  // Código de estado 404
+        errorDetails.put("error", "Curso No Encontrado");
+        errorDetails.put("message", ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+    }
+
 }
 

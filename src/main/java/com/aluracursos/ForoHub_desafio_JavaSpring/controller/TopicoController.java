@@ -2,6 +2,7 @@ package com.aluracursos.ForoHub_desafio_JavaSpring.controller;
 
 import com.aluracursos.ForoHub_desafio_JavaSpring.dto.TopicoRequestDTO;
 import com.aluracursos.ForoHub_desafio_JavaSpring.dto.TopicoResponseDTO;
+import com.aluracursos.ForoHub_desafio_JavaSpring.service.CursoService;
 import com.aluracursos.ForoHub_desafio_JavaSpring.service.TopicoService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -17,9 +18,11 @@ import org.springframework.web.bind.annotation.*;
 public class TopicoController {
 
     private final TopicoService topicoService;
+    private final CursoService cursoService;
 
-    public TopicoController(TopicoService topicoService) {
+    public TopicoController(TopicoService topicoService, CursoService cursoService) {
         this.topicoService = topicoService;
+        this.cursoService = cursoService;
     }
 
     @PostMapping
@@ -28,12 +31,17 @@ public class TopicoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
-
     @GetMapping
     public ResponseEntity<Page<TopicoResponseDTO>> listarTopicos(
-            @RequestParam(required = false) Integer cursoId,
+            @RequestParam(required = false) String cursoNombre,
             @RequestParam(required = false) Integer anio,
             @PageableDefault(size = 10, sort = "fechaCreacion", direction = Sort.Direction.ASC) Pageable pageable) {
+
+        Integer cursoId = null;
+
+        if (cursoNombre != null) {
+            cursoId = cursoService.buscarIdPorNombre(cursoNombre);  // Buscar el ID del curso a partir del nombre
+        }
         Page<TopicoResponseDTO> topicos = topicoService.listarTopicos(cursoId, anio, pageable);
         return ResponseEntity.ok(topicos);
     }
