@@ -4,6 +4,7 @@ import com.aluracursos.ForoHub_desafio_JavaSpring.model.StatusTopico;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 public class TopicoRequestDTO {
 
@@ -16,9 +17,11 @@ public class TopicoRequestDTO {
     private String mensaje;
 
     @NotNull(message = "El autor no puede ser nulo")
+    @Positive(message = "El autorId debe ser un número positivo")
     private Integer autorId;
 
     @NotNull(message = "El curso no puede ser nulo")
+    @Positive(message = "El cursoId debe ser un número positivo")
     private Integer cursoId;
 
     // Getters y setters
