@@ -7,18 +7,18 @@ public class TopicoResponseDTO {
     private int id;
     private String titulo;
     private String mensaje;
-    private Integer autorId;  // Modificado para reflejar el ID del autor
-    private Integer cursoId;
+    private AutorDTO autor;
+    private CursoDTO curso;
     private String status;  // Nuevo campo para el estado
     private LocalDateTime fechaCreacion;// Modificado para reflejar el ID del curso
 
     // Constructor
-    public TopicoResponseDTO(int id, String titulo, String mensaje, Integer autorId, Integer cursoId, String status, LocalDateTime fechaCreacion) {
+    public TopicoResponseDTO(int id, String titulo, String mensaje, AutorDTO autor, CursoDTO curso, String status, LocalDateTime fechaCreacion) {
         this.id = id;
         this.titulo = titulo;
         this.mensaje = mensaje;
-        this.autorId = autorId;
-        this.cursoId = cursoId;
+        this.autor = autor;
+        this.curso = curso;
         this.status = status;
         this.fechaCreacion = fechaCreacion;
     }
@@ -48,20 +48,20 @@ public class TopicoResponseDTO {
         this.mensaje = mensaje;
     }
 
-    public Integer getAutorId() {
-        return autorId;
+    public AutorDTO getAutor() {
+        return autor;
     }
 
-    public void setAutorId(Integer autorId) {
-        this.autorId = autorId;
+    public void setAutor(AutorDTO autor) {
+        this.autor = autor;
     }
 
-    public Integer getCursoId() {
-        return cursoId;
+    public CursoDTO getCurso() {
+        return curso;
     }
 
-    public void setCursoId(Integer cursoId) {
-        this.cursoId = cursoId;
+    public void setCurso(CursoDTO curso) {
+        this.curso = curso;
     }
 
     public String getStatus() {

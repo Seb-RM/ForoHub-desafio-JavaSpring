@@ -1,11 +1,15 @@
 package com.aluracursos.ForoHub_desafio_JavaSpring.service;
 
+import com.aluracursos.ForoHub_desafio_JavaSpring.dto.AutorDTO;
+import com.aluracursos.ForoHub_desafio_JavaSpring.dto.CursoDTO;
 import com.aluracursos.ForoHub_desafio_JavaSpring.dto.TopicoRequestDTO;
 import com.aluracursos.ForoHub_desafio_JavaSpring.dto.TopicoResponseDTO;
 import com.aluracursos.ForoHub_desafio_JavaSpring.exception.DuplicateTopicException;
 import com.aluracursos.ForoHub_desafio_JavaSpring.exception.ResourceNotFoundException;
+import com.aluracursos.ForoHub_desafio_JavaSpring.model.Curso;
 import com.aluracursos.ForoHub_desafio_JavaSpring.model.StatusTopico;
 import com.aluracursos.ForoHub_desafio_JavaSpring.model.Topico;
+import com.aluracursos.ForoHub_desafio_JavaSpring.model.Usuario;
 import com.aluracursos.ForoHub_desafio_JavaSpring.repository.CursoRepository;
 import com.aluracursos.ForoHub_desafio_JavaSpring.repository.TopicoRepository;
 import com.aluracursos.ForoHub_desafio_JavaSpring.repository.UsuarioRepository;
@@ -26,11 +30,11 @@ public class TopicoService {
 
     public TopicoResponseDTO registrarTopico(TopicoRequestDTO requestDTO) {
         // Verificar si el autor existe mediante su ID
-        usuarioRepository.findById(requestDTO.getAutorId())
+        Usuario autor = usuarioRepository.findById(requestDTO.getAutorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Autor no encontrado con ID: " + requestDTO.getAutorId()));
 
         // Verificar si el curso existe mediante su ID
-        cursoRepository.findById(requestDTO.getCursoId())
+        Curso curso = cursoRepository.findById(requestDTO.getCursoId())
                 .orElseThrow(() -> new ResourceNotFoundException("Curso no encontrado con ID: " + requestDTO.getCursoId()));
 
         boolean existeTopico = topicoRepository.existsByTituloAndMensaje(requestDTO.getTitulo(), requestDTO.getMensaje());
@@ -51,34 +55,21 @@ public class TopicoService {
         // Guardar el Topico en la base de datos
         Topico topicoGuardado = topicoRepository.save(topico);
 
+        AutorDTO autorDTO = new AutorDTO(autor.getId(), autor.getNombre());
+        CursoDTO cursoDTO = new CursoDTO(curso.getId(), curso.getNombre());
+
         // Crear y retornar el DTO de respuesta con la información del nuevo Topico
         return new TopicoResponseDTO(
                 topicoGuardado.getId(),
                 topicoGuardado.getTitulo(),
                 topicoGuardado.getMensaje(),
-                topicoGuardado.getAutorId(),  // Retornar el ID del autor
-                topicoGuardado.getCursoId(),  // Retornar el ID del curso
+                autorDTO,  // Datos completos del autor
+                cursoDTO, // Retornar el ID del curso
                 topicoGuardado.getStatus().name(),  // Obtener el estado como String
                 topicoGuardado.getFechaCreacion()
         );
     }
 
-    public TopicoResponseDTO obtenerTopicoPorId(int id) {
-        // Obtener el Topico desde el repositorio
-        Topico topico = topicoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Tópico no encontrado con ID: " + id));
-
-        // Crear y retornar el DTO de respuesta con la información del Topico
-        return new TopicoResponseDTO(
-                topico.getId(),
-                topico.getTitulo(),
-                topico.getMensaje(),
-                topico.getAutorId(),  // Retornar el ID del autor
-                topico.getCursoId(),   // Retornar el ID del curso
-                topico.getStatus().name(),  // Obtener el estado como String
-                topico.getFechaCreacion()
-        );
-    }
 }
 
 

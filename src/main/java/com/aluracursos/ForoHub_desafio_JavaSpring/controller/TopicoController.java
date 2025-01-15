@@ -24,10 +24,5 @@ public class TopicoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TopicoResponseDTO> obtenerTopico(@PathVariable int id) {
-        TopicoResponseDTO responseDTO = topicoService.obtenerTopicoPorId(id);
-        return ResponseEntity.ok(responseDTO);
-    }
 }
 
