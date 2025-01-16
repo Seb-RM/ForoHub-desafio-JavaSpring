@@ -17,6 +17,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class TopicoService {
 
@@ -102,6 +104,29 @@ public class TopicoService {
             );
         });
     }
+
+    public Optional<TopicoResponseDTO> obtenerTopicoPorId(int id) {
+
+
+        Optional<Topico> topicoBuscado = topicoRepository.findById(id);
+        return topicoBuscado.map(topico -> {
+            Usuario autor = usuarioRepository.findById(topico.getAutorId())
+                    .orElseThrow(() -> new ResourceNotFoundException("El autor con ID " + topico.getAutorId() + " no fue encontrado."));
+            Curso curso = cursoRepository.findById(topico.getCursoId())
+                    .orElseThrow(() -> new ResourceNotFoundException("El curso con ID " + topico.getCursoId() + " no fue encontrado."));
+
+            return new TopicoResponseDTO(
+                    topico.getId(),
+                    topico.getTitulo(),
+                    topico.getMensaje(),
+                    new AutorDTO(autor.getId(), autor.getNombre()),
+                    new CursoDTO(curso.getId(), curso.getNombre()),
+                    topico.getStatus().name(),
+                    topico.getFechaCreacion()
+            );
+        });
+    }
+
 
 }
 

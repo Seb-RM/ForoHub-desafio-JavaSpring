@@ -2,6 +2,7 @@ package com.aluracursos.ForoHub_desafio_JavaSpring.controller;
 
 import com.aluracursos.ForoHub_desafio_JavaSpring.dto.TopicoRequestDTO;
 import com.aluracursos.ForoHub_desafio_JavaSpring.dto.TopicoResponseDTO;
+import com.aluracursos.ForoHub_desafio_JavaSpring.exception.TopicoNoEncontradoException;
 import com.aluracursos.ForoHub_desafio_JavaSpring.service.CursoService;
 import com.aluracursos.ForoHub_desafio_JavaSpring.service.TopicoService;
 import jakarta.validation.Valid;
@@ -12,6 +13,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/topicos")
@@ -45,6 +48,18 @@ public class TopicoController {
         Page<TopicoResponseDTO> topicos = topicoService.listarTopicos(cursoId, anio, pageable);
         return ResponseEntity.ok(topicos);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TopicoResponseDTO> obtenerTopicoPorId(@PathVariable int id) {
+        Optional<TopicoResponseDTO> topico = topicoService.obtenerTopicoPorId(id);
+
+        if (topico.isEmpty()) {
+            throw new TopicoNoEncontradoException("Tópico con ID " + id + " no encontrado.");
+        }
+
+        return ResponseEntity.ok(topico.get());
+    }
+
 
 }
 
