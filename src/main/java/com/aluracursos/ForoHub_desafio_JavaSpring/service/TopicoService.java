@@ -162,6 +162,17 @@ public class TopicoService {
         );
     }
 
+    // Eliminar un tópico por ID
+    public void eliminarTopico(Integer id) {
+        Optional<Topico> topicoBuscado = topicoRepository.findById(id);
+
+        if (!topicoBuscado.isPresent()) {
+            throw new TopicoNoEncontradoException("Tópico con ID " + id + " no encontrado.");
+        }
+
+        // Eliminar el tópico de la base de datos
+        topicoRepository.deleteById(id);
+    }
 }
 
 

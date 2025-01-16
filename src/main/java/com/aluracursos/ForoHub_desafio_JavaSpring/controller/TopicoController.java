@@ -70,5 +70,10 @@ public class TopicoController {
         return ResponseEntity.ok(topicoActualizado);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarTopico(@PathVariable Integer id) {
+        topicoService.eliminarTopico(id);
+        return ResponseEntity.noContent().build(); // Responde con código 204 No Content
+    }
 }
 
