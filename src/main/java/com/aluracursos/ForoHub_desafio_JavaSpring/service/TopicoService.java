@@ -6,6 +6,7 @@ import com.aluracursos.ForoHub_desafio_JavaSpring.dto.TopicoRequestDTO;
 import com.aluracursos.ForoHub_desafio_JavaSpring.dto.TopicoResponseDTO;
 import com.aluracursos.ForoHub_desafio_JavaSpring.exception.DuplicateTopicException;
 import com.aluracursos.ForoHub_desafio_JavaSpring.exception.ResourceNotFoundException;
+import com.aluracursos.ForoHub_desafio_JavaSpring.exception.TopicoNoEncontradoException;
 import com.aluracursos.ForoHub_desafio_JavaSpring.model.Curso;
 import com.aluracursos.ForoHub_desafio_JavaSpring.model.StatusTopico;
 import com.aluracursos.ForoHub_desafio_JavaSpring.model.Topico;
@@ -127,6 +128,39 @@ public class TopicoService {
         });
     }
 
+    public TopicoResponseDTO actualizarTopico(int id, TopicoRequestDTO topicoRequest) {
+        // Verificar si el tópico existe
+        Topico topico = topicoRepository.findById(id)
+                .orElseThrow(() -> new TopicoNoEncontradoException("Tópico con ID " + id + " no encontrado."));
+
+        // Verificar si el autor existe
+        Usuario autor = usuarioRepository.findById(topicoRequest.getAutorId())
+                .orElseThrow(() -> new ResourceNotFoundException("El autor con ID " + topicoRequest.getAutorId() + " no fue encontrado."));
+
+        // Verificar si el curso existe
+        Curso curso = cursoRepository.findById(topicoRequest.getCursoId())
+                .orElseThrow(() -> new ResourceNotFoundException("El curso con ID " + topicoRequest.getCursoId() + " no fue encontrado."));
+
+        // Actualizar los datos del tópico
+        topico.setTitulo(topicoRequest.getTitulo());
+        topico.setMensaje(topicoRequest.getMensaje());
+        topico.setAutorId(autor.getId());
+        topico.setCursoId(curso.getId());
+
+        // Guardar el tópico actualizado en la base de datos
+        Topico topicoActualizado = topicoRepository.save(topico);
+
+        // Convertir el tópico actualizado en un DTO de respuesta
+        return new TopicoResponseDTO(
+                topicoActualizado.getId(),
+                topicoActualizado.getTitulo(),
+                topicoActualizado.getMensaje(),
+                new AutorDTO(autor.getId(), autor.getNombre()),
+                new CursoDTO(curso.getId(), curso.getNombre()),
+                topicoActualizado.getStatus().name(),
+                topicoActualizado.getFechaCreacion()
+        );
+    }
 
 }
 

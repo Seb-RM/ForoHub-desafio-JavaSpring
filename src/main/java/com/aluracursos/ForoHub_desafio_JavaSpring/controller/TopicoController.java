@@ -60,6 +60,15 @@ public class TopicoController {
         return ResponseEntity.ok(topico.get());
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<TopicoResponseDTO> actualizarTopico(
+            @PathVariable int id,
+            @RequestBody @Valid TopicoRequestDTO topicoRequest) {
+
+        TopicoResponseDTO topicoActualizado = topicoService.actualizarTopico(id, topicoRequest);
+
+        return ResponseEntity.ok(topicoActualizado);
+    }
 
 }
 
