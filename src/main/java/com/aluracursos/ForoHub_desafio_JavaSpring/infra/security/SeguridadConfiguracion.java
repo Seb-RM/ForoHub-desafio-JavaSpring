@@ -21,7 +21,7 @@ public class SeguridadConfiguracion {
         http
                 .authorizeHttpRequests(requests ->
                         requests
-                                .requestMatchers("/login").permitAll() // Permitir acceso sin autenticación al endpoint de login
+                                .requestMatchers("/login", "/usuarios").permitAll() // Permitir acceso sin autenticación al endpoint de login
                                 .anyRequest().authenticated() // Requiere autenticación para cualquier otra solicitud
                 )
                 .csrf(csrf -> csrf.disable()) // Desactiva CSRF para simplificar
